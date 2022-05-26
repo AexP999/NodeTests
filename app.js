@@ -1,28 +1,24 @@
-const http = require('http');
+const fs = require("fs");
 
-const PORT = 3000;
+fs.readFile("./test.txt", 'utf-8', (error, data) => {
 
-const server = http.createServer((req, res) => {
-  console.log('Server request');
-  console.log('Just for test');
-  // console.log(req.url, req.method);
+  fs.mkdirSync("./files", () => {});
 
-  res.setHeader('Content-Type', 'application/json');
-  // res.setHeader('Content-Type', 'html');
+  fs.writeFileSync("./files/test2.txt", `${data}New text!`, (error) => {
+    error ? console.log(error) : null;
+  });
 
-  // res.write('<head><link rel= "stylesheet" href="#"></head>');
-
-  // res.write('<h1>Hello</h1>');
-  // res.write('<p>I am here</p>');
-
-  const data = JSON.stringify([
-    { name: 'Tom', age: 35 },
-    { name: 'Art', age: 32 },
-  ]);
-
-  res.end(data);
 });
 
-server.listen(PORT, 'localhost', (error) => {
-  error ? console.log(error) : console.log(`Listening port ${PORT}`);
-});
+setTimeout(() => {
+  if (fs.existsSync("./files/test2.txt")) {
+    fs.unlink("./files/test2.txt", () => {});
+  }
+}, 4000);
+setTimeout(() => {
+  if (fs.existsSync("./files")) {
+  fs.rmdir("./files", () => {});
+  }
+}, 6000);
+
+//console.log("Just test!");
