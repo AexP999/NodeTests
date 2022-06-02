@@ -23,6 +23,18 @@ appp.get('/about-us', (req, res) => {
   res.redirect('/contacts');
 });
 
+appp.get('/post/:id', (req, res) => {
+  res.sendFile(createPath('/post'));
+});
+
+appp.get('/posts', (req, res) => {
+  res.sendFile(createPath('/posts'));
+});
+
+appp.get('/add-post', (req, res) => {
+  res.sendFile(createPath('/add-post'));
+});
+
 appp.use((req, res) => {
   res.status(404).sendFile(createPath('error'));
 });
